@@ -23,6 +23,8 @@ contract Threat{
         emit IndicatorAdded(counter, _name, _value, _type, _source, _tags, _description);
     }
 
+    function modifyIndicator(c)
+
     function getIndicators() public view returns (Indicator[] memory){
         Indicator[] memory list = new Indicator[](counter);
         for(uint i =1; i <= counter; i++){
