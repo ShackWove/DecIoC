@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
+//const { ethers } = hardhat;
 
 describe("ThreatIntelFeed", function () {
     async function deployContract() {
@@ -52,6 +53,6 @@ describe("ThreatIntelFeed", function () {
 
     it("should reject invalid IDs", async function () {
         const { feed } = await deployContract();
-        await expect(feed.getIndicator(999)).to.be.revertedWith("Invalid indicator ID");
+        await expect(feed.getIndicator(999)).to.be.revertedWith("invalid indicator ID");
     });
 });
