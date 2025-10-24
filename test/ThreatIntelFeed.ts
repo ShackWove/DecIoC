@@ -22,18 +22,32 @@ describe("ThreatIntelFeed", function () {
     it("should add a new indicator", async function () {
         const { feed, owner } = await deployContract();
 
-        await feed.connect(owner).addIndicator("ip", "45.155.205.233");
-
+        await feed.connect(owner).addIndicator(
+            "ip",                       // _name
+            "45.155.205.233",           // _value
+            "network",                  // _types
+            ["malware", "scanner"],     // _tags
+            "Suspicious IP address"     // _description
+        );
         const indicator = await feed.getIndicator(1);
-        expect(indicator.indicatorType).to.equal("ip");
-        expect(indicator.indicatorValue).to.equal("45.155.205.233");
+
+        expect(indicator.name).to.equal("ip");
+        expect(indicator.value).to.equal("45.155.205.233");
+        expect(indicator.types).to.equal("network");
         expect(indicator.confidence).to.equal(0);
     });
 
     it("should increment and decrement confidence", async function () {
-        const { feed, user1 } = await deployContract();
+        const { feed, owner, user1 } = await deployContract();
 
-        await feed.addIndicator("domain", "malicious.com");
+        // Aggiungi un indicatore con tutti i parametri richiesti
+        await feed.connect(owner).addIndicator(
+            "domain",               // _name
+            "malicious.com",        // _value
+            "dns",                  // _types
+            ["phishing", "C2"],     // _tags
+            "Known malicious domain"// _description
+        );
 
         await feed.connect(user1).incrementConfidence(1);
         let ind = await feed.getIndicator(1);
@@ -45,10 +59,18 @@ describe("ThreatIntelFeed", function () {
     });
 
     it("should prevent decrementing below 0", async function () {
-        const { feed } = await deployContract();
-        await feed.addIndicator("ip", "1.2.3.4");
+        const { feed, owner, user1 } = await deployContract();
 
-        await expect(feed.decrementConfidence(1)).to.be.revertedWith("Already at minimum confidence");
+        // Aggiungi un indicatore con tutti i parametri richiesti
+        await feed.connect(owner).addIndicator(
+            "domain",               // _name
+            "malicious.com",        // _value
+            "dns",                  // _types
+            ["phishing", "C2"],     // _tags
+            "Known malicious domain"// _description
+        );
+
+        await expect(feed.decrementConfidence(1)).to.be.revertedWith("confidence already 0");
     });
 
     it("should reject invalid IDs", async function () {
