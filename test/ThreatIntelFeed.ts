@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-//const { ethers } = hardhat;
 
 describe("ThreatIntelFeed", function () {
     async function deployContract() {
@@ -40,7 +39,7 @@ describe("ThreatIntelFeed", function () {
     it("should increment and decrement confidence", async function () {
         const { feed, owner, user1 } = await deployContract();
 
-        // Aggiungi un indicatore con tutti i parametri richiesti
+
         await feed.connect(owner).addIndicator(
             "domain",               // _name
             "malicious.com",        // _value
@@ -61,7 +60,7 @@ describe("ThreatIntelFeed", function () {
     it("should prevent decrementing below 0", async function () {
         const { feed, owner, user1 } = await deployContract();
 
-        // Aggiungi un indicatore con tutti i parametri richiesti
+
         await feed.connect(owner).addIndicator(
             "domain",               // _name
             "malicious.com",        // _value
