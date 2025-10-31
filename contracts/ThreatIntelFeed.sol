@@ -53,5 +53,17 @@ contract ThreatIntelFeed{
     return list;
   }
 
+  function delIndicators(uint256 id) public{
+    require(id > 0 && id <= counter, "invalid indicator ID");
+
+    Indicator storage ind = indicators[id];
+    require(bytes(ind.name).length != 0, "Indicator already deleted");
+
+    require(msg.sender == ind.source, "Not authorized to delete");
+
+    delete indicators[id];
+  }
+
+
 
 }

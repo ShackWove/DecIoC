@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import ThreatIntelFeed from "./contracts/ThreatIntelFeed.json";
 
-const CONTRACT_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+
 
 interface Indicator {
   id: string;
@@ -100,7 +102,7 @@ export default function App() {
       <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center py-10 px-6">
       <div className="w-full max-w-[1600px] mx-auto space-y-10 text-center">
       <h1 className="text-5xl font-bold mb-10">
-      🧠 Threat Intelligence Feed (Blockchain)
+      Threat Intelligence Feed
       </h1>
 
       {!account ? (

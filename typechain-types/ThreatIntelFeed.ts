@@ -68,6 +68,7 @@ export interface ThreatIntelFeedInterface extends Interface {
       | "addIndicator"
       | "counter"
       | "decrementConfidence"
+      | "delIndicators"
       | "getIndicator"
       | "getIndicators"
       | "incrementConfidence"
@@ -85,6 +86,10 @@ export interface ThreatIntelFeedInterface extends Interface {
   encodeFunctionData(functionFragment: "counter", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decrementConfidence",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "delIndicators",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -111,6 +116,10 @@ export interface ThreatIntelFeedInterface extends Interface {
   decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decrementConfidence",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "delIndicators",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -253,6 +262,8 @@ export interface ThreatIntelFeed extends BaseContract {
     "nonpayable"
   >;
 
+  delIndicators: TypedContractMethod<[id: BigNumberish], [void], "nonpayable">;
+
   getIndicator: TypedContractMethod<
     [id: BigNumberish],
     [ThreatIntelFeed.IndicatorStructOutput],
@@ -321,6 +332,9 @@ export interface ThreatIntelFeed extends BaseContract {
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "decrementConfidence"
+  ): TypedContractMethod<[id: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "delIndicators"
   ): TypedContractMethod<[id: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "getIndicator"

@@ -11,7 +11,7 @@ async function main() {
 
 
   const address = await feed.getAddress();
-  console.log(`✅ ThreatIntelFeed deployed to: ${address}`);
+  console.log(`ThreatIntelFeed deployed to: ${address}`);
 
 
   const path = "./frontend/src/contracts/contract-address.json";
@@ -19,7 +19,7 @@ async function main() {
     path,
     JSON.stringify({ ThreatIntelFeed: address }, null, 2)
   );
-  console.log(`📄 Address saved to ${path}`);
+  console.log(`Address saved to ${path}`);
 }
 
 main().catch((error) => {

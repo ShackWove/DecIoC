@@ -30,11 +30,11 @@ async function main() {
     );
 
     await tx.wait();
-    console.log("✅ Indicator added!");
+    console.log("Indicator added!");
 
 
     const indicator = await contract.getIndicator(1);
-    console.log("🔍 Indicator #1:");
+    console.log("Indicator #1:");
     console.log({
         id: indicator.id.toString(),
                 name: indicator.name,
@@ -44,12 +44,12 @@ async function main() {
                 creator: indicator.source,
     });
 
-    console.log("⬆️ Incrementing confidence...");
+    console.log("Incrementing confidence...");
     const tx2 = await contract.connect(user1).incrementConfidence(1);
     await tx2.wait();
 
     const updated = await contract.getIndicator(1);
-    console.log("📈 Updated confidence:", updated.confidence.toString());
+    console.log("Updated confidence:", updated.confidence.toString());
 }
 
 main().catch((error) => {
