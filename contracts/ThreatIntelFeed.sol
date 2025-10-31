@@ -54,8 +54,4 @@ contract ThreatIntelFeed{
   }
 
 
-
-
-
-
 }

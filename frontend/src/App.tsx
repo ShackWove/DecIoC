@@ -132,30 +132,33 @@ export default function App() {
         </div>
 
         {/* --- TABLE --- */}
-        <div className="bg-gray-800 p-10 rounded-2xl shadow-xl w-full flex justify-center">
-        <div className="w-full max-w-[1200px] space-y-8">
-        <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-semibold text-center w-full">Indicators</h2>
+
+        <div className="bg-gray-800 p-12 rounded-2xl shadow-xl w-full">
+        <div className="w-full space-y-10 px-6">
+        <div className="flex justify-center mb-8">
+        <h2 className="text-4xl font-semibold text-center text-white">
+        Indicators
+        </h2>
         </div>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-10">
         <input
         type="text"
         placeholder="🔍 Search indicators..."
-        className="p-4 bg-gray-700 rounded-lg w-96 text-center"
+        className="p-4 bg-gray-700 rounded-lg w-full max-w-2xl text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
         />
         </div>
 
         {filteredIndicators.length === 0 ? (
-          <p className="text-gray-400 text-center">No indicators found</p>
+          <p className="text-gray-400 text-center text-lg">No indicators found</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center">
           {filteredIndicators.map(ind => (
             <div
             key={ind.id}
-            className="bg-gray-900 border border-gray-700 rounded-2xl shadow-lg p-6 text-left hover:shadow-2xl transition-all"
+            className="bg-gray-900 border border-gray-700 rounded-3xl shadow-lg p-8 w-full max-w-[550px] hover:shadow-2xl transition-all"
             >
             <h3 className="text-2xl font-semibold mb-4 text-blue-400 text-center">
             {ind.name} <span className="text-gray-400 text-lg">({ind.types})</span>
@@ -163,7 +166,7 @@ export default function App() {
 
             <div className="border-t border-gray-700 my-3"></div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm">
             <div><strong>ID:</strong> {ind.id}</div>
             <div><strong>Value:</strong> {ind.value}</div>
             <div><strong>Confidence:</strong> <span className="text-blue-400 font-semibold">{ind.confidence}</span></div>
@@ -176,7 +179,7 @@ export default function App() {
 
             <div>
             <strong>Description:</strong>
-            <p className="text-gray-300 mt-2">{ind.description || "No description"}</p>
+            <p className="text-gray-300 mt-2 text-sm">{ind.description || "No description"}</p>
             </div>
 
             <div className="border-t border-gray-700 my-3"></div>
@@ -218,6 +221,7 @@ export default function App() {
         )}
         </div>
         </div>
+
         </>
       )}
       </div>
