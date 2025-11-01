@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { motion } from "framer-motion";
+import "./App.css";
 import ThreatIntelFeed from "./contracts/ThreatIntelFeed.json";
 
 const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-
-
 
 interface Indicator {
   id: string;
@@ -99,134 +99,77 @@ export default function App() {
     );
 
     return (
-      <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center py-10 px-6">
-      <div className="w-full max-w-[1600px] mx-auto space-y-10 text-center">
-      <h1 className="text-5xl font-bold mb-10">
-      Threat Intelligence Feed
-      </h1>
+      <div className="app">
+      <header className="header">
+      <motion.h1
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      >
+      DecIoC
+      </motion.h1>
+      </header>
 
       {!account ? (
-        <button
-        onClick={connectWallet}
-        className="px-10 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl text-xl font-semibold shadow-lg"
-        >
+        <div className="center">
+        <button className="btn connect" onClick={connectWallet}>
         Connect MetaMask
         </button>
+        </div>
       ) : (
         <>
-        {/* --- FORM --- */}
-        <div className="bg-gray-800 p-8 rounded-2xl shadow-xl mx-auto w-full max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-6">Add New Indicator</h2>
-        <form onSubmit={addIndicator} className="space-y-4 text-left">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <input className="p-3 bg-gray-700 rounded-lg" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
-        <input className="p-3 bg-gray-700 rounded-lg" placeholder="Value (e.g. IP, domain)" value={value} onChange={e => setValue(e.target.value)} />
-        <input className="p-3 bg-gray-700 rounded-lg" placeholder="Type (e.g. network, dns)" value={types} onChange={e => setTypes(e.target.value)} />
-        <input className="p-3 bg-gray-700 rounded-lg" placeholder="Tags (comma-separated)" value={tags} onChange={e => setTags(e.target.value)} />
-        </div>
-        <textarea className="p-3 bg-gray-700 rounded-lg w-full h-28 resize-none" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
-        <div className="text-center">
-        <button type="submit" className="bg-green-600 hover:bg-green-700 px-10 py-3 rounded-lg font-semibold">
-        Add Indicator
-        </button>
-        </div>
+        <div className="form-container">
+        <h2>Add New Indicator</h2>
+        <form onSubmit={addIndicator}>
+        <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+        <input placeholder="Value" value={value} onChange={e => setValue(e.target.value)} />
+        <input placeholder="Type" value={types} onChange={e => setTypes(e.target.value)} />
+        <input placeholder="Tags (comma-separated)" value={tags} onChange={e => setTags(e.target.value)} />
+        <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+        <button className="btn add" type="submit">Add Indicator</button>
         </form>
         </div>
 
-        {/* --- TABLE --- */}
-
-        <div className="bg-gray-800 p-12 rounded-2xl shadow-xl w-full">
-        <div className="w-full space-y-10 px-6">
-        <div className="flex justify-center mb-8">
-        <h2 className="text-4xl font-semibold text-center text-white">
-        Indicators
-        </h2>
-        </div>
-
-        <div className="flex justify-center mb-10">
+        <div className="search-box">
         <input
         type="text"
         placeholder="🔍 Search indicators..."
-        className="p-4 bg-gray-700 rounded-lg w-full max-w-2xl text-center text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
         />
         </div>
 
+        <div className="cards">
         {filteredIndicators.length === 0 ? (
-          <p className="text-gray-400 text-center text-lg">No indicators found</p>
+          <p>No indicators found</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center">
-          {filteredIndicators.map(ind => (
-            <div
+          filteredIndicators.map(ind => (
+            <motion.div
             key={ind.id}
-            className="bg-gray-900 border border-gray-700 rounded-3xl shadow-lg p-8 w-full max-w-[550px] hover:shadow-2xl transition-all"
+            className="card"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
             >
-            <h3 className="text-2xl font-semibold mb-4 text-blue-400 text-center">
-            {ind.name} <span className="text-gray-400 text-lg">({ind.types})</span>
-            </h3>
-
-            <div className="border-t border-gray-700 my-3"></div>
-
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm">
-            <div><strong>ID:</strong> {ind.id}</div>
-            <div><strong>Value:</strong> {ind.value}</div>
-            <div><strong>Confidence:</strong> <span className="text-blue-400 font-semibold">{ind.confidence}</span></div>
-            <div><strong>Source:</strong> <span className="break-all">{ind.source}</span></div>
-            <div><strong>First Seen:</strong> {ind.first_seen}</div>
-            <div><strong>Last Seen:</strong> {ind.last_seen}</div>
+            <h3>{ind.name} <span>({ind.types})</span></h3>
+            <hr />
+            <p><strong>Value:</strong> {ind.value}</p>
+            <p><strong>Confidence:</strong> {ind.confidence}</p>
+            <p><strong>Source:</strong> {ind.source}</p>
+            <p><strong>First Seen:</strong> {ind.first_seen}</p>
+            <p><strong>Last Seen:</strong> {ind.last_seen}</p>
+            <p><strong>Description:</strong> {ind.description || "No description"}</p>
+            <p><strong>Tags:</strong> {ind.tags.join(", ") || "No tags"}</p>
+            <div className="card-buttons">
+            <button className="btn inc" onClick={() => increment(ind.id)}>👍 Increment</button>
+            <button className="btn dec" onClick={() => decrement(ind.id)}>👎 Decrement</button>
             </div>
-
-            <div className="border-t border-gray-700 my-3"></div>
-
-            <div>
-            <strong>Description:</strong>
-            <p className="text-gray-300 mt-2 text-sm">{ind.description || "No description"}</p>
-            </div>
-
-            <div className="border-t border-gray-700 my-3"></div>
-
-            <div>
-            <strong>Tags:</strong>
-            <div className="flex flex-wrap gap-2 mt-2">
-            {ind.tags.length > 0 ? (
-              ind.tags.map((tag, idx) => (
-                <span key={idx} className="bg-blue-700 text-white px-3 py-1 rounded-full text-xs font-medium">
-                {tag}
-                </span>
-              ))
-            ) : (
-              <span className="text-gray-400">No tags</span>
-            )}
-            </div>
-            </div>
-
-            <div className="border-t border-gray-700 my-4"></div>
-
-            <div className="flex justify-center gap-4">
-            <button
-            onClick={() => increment(ind.id)}
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg"
-            >
-            👍 Increment
-            </button>
-            <button
-            onClick={() => decrement(ind.id)}
-            className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
-            >
-            👎 Decrement
-            </button>
-            </div>
-            </div>
-          ))}
-          </div>
+            </motion.div>
+          ))
         )}
         </div>
-        </div>
-
         </>
       )}
-      </div>
       </div>
     );
 }
