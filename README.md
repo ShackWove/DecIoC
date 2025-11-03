@@ -1,7 +1,7 @@
 # DecIoc
 
 A decentralized application (dApp) for managing **Indicators of Compromise (IoCs)** on the blockchain.  
-Each indicator (IP, domain, hash, etc.) is stored in a transparent and immutable way, with the ability for users to **vote on the confidence** (reliability) of each piece of data.
+Each indicator (IP, domain, hash, etc.) is stored in a transparent and immutable way, with the ability for users to **vote on the confidence** (reliability) of each indicator.
 
 ---
 
